@@ -26,9 +26,9 @@ jobs:
             --health-retries=30
     steps:
       - name: Checkout
-        users: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: Setup PHP
-        users: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: "8.3"
           extensions: mbstring, intl, pdo_mysql
