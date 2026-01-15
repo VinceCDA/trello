@@ -49,7 +49,7 @@ jobs:
             - name: Prepare test database
               env:
                   APP_ENV: test
-                  DATABASE_URL: "mysql://trello:trello@127.0.0.1:3306/trellodb_test?serverVersion=8.0&charset=utf8mb4"
+                  DATABASE_URL: "mysql://root:root@127.0.0.1:3306/trellodb?serverVersion=8.0&charset=utf8mb4"
               run: |
                   php bin/console doctrine:database:create --if-not-exists
                   php bin/console doctrine:schema:drop --force
@@ -58,5 +58,5 @@ jobs:
             - name: Run tests
               env:
                   APP_ENV: test
-                  DATABASE_URL: "mysql://trello:trello@127.0.0.1:3306/trellodb_test?serverVersion=8.0&charset=utf8mb4"
+                  DATABASE_URL: "mysql://root:root@127.0.0.1:3306/trello?serverVersion=8.0&charset=utf8mb4"
               run: php bin/phpunit
