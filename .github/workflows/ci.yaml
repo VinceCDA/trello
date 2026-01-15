@@ -10,19 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql: mysql:8.0
-      env:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: trello
-        MYSQL_USER: trello
-        MYSQL_PASSWORD: trello
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval=5s
-          --health-timeout=3s
-          --health-retries=30
+      mysql: 
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: trello
+          MYSQL_USER: trello
+          MYSQL_PASSWORD: trello
+          ports:
+            - 3306:3306
+          options: >-
+            --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+            --health-interval=5s
+            --health-timeout=3s
+            --health-retries=30
     steps:
       - name: Checkout
         users: actions/checkout@v4
