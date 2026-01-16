@@ -1,16 +1,23 @@
 <?php
+
 namespace App\Tests\Fonctrionnel;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-final class SecurityTest extends WebTestCase{
-    public function testRedirection(){
+use App\Repository\UtilisateurRepository;
+
+final class SecurityTest extends WebTestCase
+{
+    public function testRedirection()
+    {
         $client = static::createClient();
-        $client->request("GET","/tache");
+        $client->request("GET", "/tache");
         $this->assertResponseRedirects("/login");
     }
-    public function testInscriptionConnexion(){
+    public function testInscriptionConnexion()
+    {
         $client = static::createClient();
-        $crawler = $client->request("GET","/register");
-        $email = 'testuser'.uniqid('',true)."@test.local";
+        $crawler = $client->request("GET", "/register");
+        $email = 'testuser' . uniqid('', true) . "@test.local";
         $form = $crawler->selectButton('Register')->form([
             'registration_form[email]' => $email,
             'registration_form[plainPassword]' => 'pass1234',
@@ -19,7 +26,16 @@ final class SecurityTest extends WebTestCase{
         $client->submit($form);
         $this->assertResponseRedirects();
         $client->followRedirect();
-        $client->request("GET","/tache");
+        $client->request("GET", "/tache");
+        $this->assertResponseIsSuccessful();
+    }
+    public function testLogin()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UtilisateurRepository::class);
+        $testUser = $userRepository->findOneByEmail('testuser@test.local');
+        $client->loginUser($testUser);
+        $client->request('GET', '/tache');
         $this->assertResponseIsSuccessful();
     }
 }
